@@ -1,6 +1,6 @@
 # Receipt Processor
 
-Build a webservice that fulfils the documented API. The API is defined in `openapi.yml` file, but is summarized below.
+Build a webservice that fulfils the documented API. The API is defined in `api.yml` file, but is summarized below.
 We will use the described API to test your solution.
 
 Provide any instructions required to run your application.
