@@ -3,12 +3,15 @@
 Build a webservice that fulfils the documented API. The API is defined in `openapi.yml` file, but is summarized below.
 We will use the described API to test your solution.
 
-You can use any language and frameworks you prefer, but our engineers must be able to run your application to evaluate
-it.
+Provide any instructions required to run your application.
 
-## Tips
-* The engineer evaluating your solution may not have a dev environment for your language. Providing a docker file that can run your application helps with this.
-* Data does not need to persist after a reboot. This allows you to use in-memory solutions. Databases can be difficult to set up.
+Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we won't install a database on our system to test your applicaiton.
+
+## Language Selection
+
+You can assume our engineers have Go and Docker installed to run your application. Go is our preferred language, but it is not a requirement for this exercise.
+
+If you are using a language other than Go, the engineer evaluating your submission may not have an environment ready for your language. Your instructions should include how to get an environment that can run your project. For example, if you write your project in Javascript simply stating to "run `npm start` to start the application" is not sufficient, because the engineer may not have NPM. Providing a docker file and the required docker command is a simple way to satisfy this requirement.
 
 ---
 ## Process Receipt
