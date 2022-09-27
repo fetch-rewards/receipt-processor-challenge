@@ -5,13 +5,13 @@ We will use the described API to test your solution.
 
 Provide any instructions required to run your application.
 
-Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we won't install a database on our system to test your applicaiton.
+Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we won't install a database on our system to test your application.
 
 ## Language Selection
 
 You can assume our engineers have Go and Docker installed to run your application. Go is our preferred language, but it is not a requirement for this exercise.
 
-If you are using a language other than Go, the engineer evaluating your submission may not have an environment ready for your language. Your instructions should include how to get an environment that can run your project. For example, if you write your project in Javascript simply stating to "run `npm start` to start the application" is not sufficient, because the engineer may not have NPM. Providing a docker file and the required docker command is a simple way to satisfy this requirement.
+If you are using a language other than Go, the engineer evaluating your submission may not have an environment ready for your language. Your instructions should include how to get an environment in any OS that can run your project. For example, if you write your project in Javascript simply stating to "run `npm start` to start the application" is not sufficient, because the engineer may not have NPM. Providing a docker file and the required docker command is a simple way to satisfy this requirement.
 
 ---
 ## Process Receipt
@@ -24,7 +24,7 @@ Receipts are processed by being posted to the `/receipts/process` endpoint. Proc
 points to be awarded for the receipt. The rules for how points are computed are described below. The response is just 
 an ID assigned to the receipt.
 
-The full Receipt schema is defined in `openapi.yml` and examples can be found in the example directory.
+The full Receipt schema is defined in `api.yml` and examples can be found in the example directory.
 
 ## Get Points
 
