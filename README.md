@@ -14,6 +14,10 @@ You can assume our engineers have Go and Docker installed to run your applicatio
 
 If you are using a language other than Go, the engineer evaluating your submission may not have an environment ready for your language. Your instructions should include how to get an environment in any OS that can run your project. For example, if you write your project in Javascript simply stating to "run `npm start` to start the application" is not sufficient, because the engineer may not have NPM. Providing a docker file and the required docker command is a simple way to satisfy this requirement.
 
+## Submitting your solution
+
+Provide a link to a public repository, such as GitHub or BitBucket, that contains your code to the provided link through Greenhouse.
+
 ---
 ## API
 
@@ -132,3 +136,22 @@ These rules collectively define how many points should be awarded to a receipt.
 * 14 Points: Retailer Name has 14 Alpha-Numeric characters (`&` is not alpha-numeric)
 * 10 Points: 2:33pm is between 2:00pm and 4:00pm: 10 points
 * 10 Points: 4 items (2 pairs @ 5 points each)
+
+# FAQ
+
+### How will this exercise be evaluated?
+An engineer will review the code you submit. At a minimum they must be able to run the service and the service must provide the expected results. You
+should provide any necessary documentation within the repository. While your solution does not need to be fully production ready, you are being evaluated so
+put your best foot forward.
+
+### I have questions about the problem statement
+For any requirements not specified via an example, use your best judgment to determine the expected result.
+
+### Can I provide a private repository?
+If at all possible, we prefer a public repository because we do not know which engineer will be evaluating your submission. Providing a public repository
+ensures a speedy review of your submission. If you are still uncomfortable providing a public repository, you can work with your recruiter to provide access to
+the reviewing engineer.
+
+### How long do I have to complete the exercise?
+There is no time limit for the exercise. Out of respect for your time, we designed this exercise with the intent that it should take you a few hours. But, please
+take as much time as you need to complete the work.
