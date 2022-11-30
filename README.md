@@ -6,7 +6,7 @@ described API to test your solution.
 
 Provide any instructions required to run your application.
 
-Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we won't install a database on our system to test your application.
+Data does not need to persist when your application stops. It is sufficient to store information in memory. There are too many different database solutions, we will not be installing a database on our system when testing your application.
 
 ## Language Selection
 
