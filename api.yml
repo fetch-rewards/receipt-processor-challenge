@@ -104,7 +104,7 @@ components:
                 shortDescription:
                     description: The Short Product Description for the item.
                     type: string
-                    pattern: "^\\S+$"
+                    pattern: "^[\\w\\s\\-]+$"
                     example: "Mountain Dew 12PK"
                 price:
                     description: The total price payed for this item.
