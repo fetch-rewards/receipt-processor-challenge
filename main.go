@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,12 +13,12 @@ type item struct {
 }
 
 type receipt struct {
-	ID           int     `json:"id"`
-	Retailer     string  `json:"retailer"`
-	PurchaseDate string  `json:"purchaseDate"`
-	PurchaseTime string  `json:"purchaseTime"`
-	Total        string  `json:"total"`
-	Items        []*item `json:"items"`
+	ID           string `json:"id"`
+	Retailer     string `json:"retailer"`
+	PurchaseDate string `json:"purchaseDate"`
+	PurchaseTime string `json:"purchaseTime"`
+	Total        string `json:"total"`
+	Items        []item `json:"items"`
 }
 
 var receipts []receipt
@@ -31,7 +32,8 @@ func createReceipt(c *gin.Context) {
 	if err := c.BindJSON(&newReceipt); err != nil {
 		return
 	}
-	newReceipt.ID = len(receipts) + 1
+
+	newReceipt.ID = strconv.Itoa(len(receipts) + 1)
 
 	receipts = append(receipts, newReceipt)
 	c.IndentedJSON(http.StatusCreated, newReceipt)
