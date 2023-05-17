@@ -55,6 +55,7 @@ func newReceipt(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newReceipt)
 }
 
+// processes all rules for a given receipt
 func processPointsForReceipt(c *gin.Context) {
 	totalPoints := 0
 
@@ -69,7 +70,7 @@ func processPointsForReceipt(c *gin.Context) {
 	totalPoints += alphanumericCharactersInRetailer(receiptToProcess.Retailer)
 	totalPoints += roundDollarAmount(receiptToProcess.Total)
 	totalPoints += multipleOfQuarter(receiptToProcess.Total)
-	totalPoints += numItemsDivisableByTwo(receiptToProcess.Items)
+	totalPoints += everyTwoItems(receiptToProcess.Items)
 	totalPoints += itemDescription(receiptToProcess.Items)
 	totalPoints += isDateOdd(receiptToProcess.PurchaseDate)
 	totalPoints += isTimeBetweenFourAndTwo(receiptToProcess.PurchaseTime)
@@ -83,12 +84,14 @@ func processPointsForReceipt(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"id": pointsForReceipt.Id})
 }
 
+// One point for every alphanumeric character in the retailer name.
 func alphanumericCharactersInRetailer(retailerName string) int {
 	nonAlphanumericRegex := regexp.MustCompile(`[^a-zA-Z0-9]+`)
 	cleanedString := nonAlphanumericRegex.ReplaceAllString(retailerName, "")
 	return len(cleanedString)
 }
 
+// 50 points if the total is a round dollar amount with no cents.
 func roundDollarAmount(total string) int {
 	if strings.HasSuffix(total, ".00") {
 		return 50
@@ -97,6 +100,7 @@ func roundDollarAmount(total string) int {
 	return 0
 }
 
+// 25 points if the total is a multiple of 0.25
 func multipleOfQuarter(total string) int {
 	floatTotal, err := strconv.ParseFloat(total, 32)
 
@@ -113,10 +117,14 @@ func multipleOfQuarter(total string) int {
 	return 0
 }
 
-func numItemsDivisableByTwo(items []item) int {
+// 5 points for every two items on the receipt.
+func everyTwoItems(items []item) int {
 	return (len(items) / 2) * 5
 }
 
+// If the trimmed length of the item description is a multiple of 3,
+// multiply the price by 0.2 and round up to the nearest integer.
+// The result is the number of points earned.
 func itemDescription(items []item) int {
 	points := 0
 	for _, item := range items {
@@ -131,8 +139,9 @@ func itemDescription(items []item) int {
 	return points
 }
 
+// 6 points if the day in the purchase date is odd.
 func isDateOdd(date string) int {
-	day, err := strconv.Atoi(strings.Split(date, "-")[1])
+	day, err := strconv.Atoi(strings.Split(date, "-")[2])
 	if err != nil {
 		return 0
 	}
@@ -142,6 +151,7 @@ func isDateOdd(date string) int {
 	return 0
 }
 
+// 10 points if the time of purchase is after 2:00pm and before 4:00pm
 func isTimeBetweenFourAndTwo(purchaseTime string) int {
 	hour, err := strconv.Atoi(strings.Split(purchaseTime, ":")[0])
 
