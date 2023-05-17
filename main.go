@@ -25,13 +25,8 @@ type receipt struct {
 	Items        []item `json:"items"`
 }
 
-type points struct {
-	Id     string `json:"id"`
-	Points int    `json:"points"`
-}
-
 var receipts []receipt
-var receiptPoints []points
+var pointsPerReceiptMap = make(map[string]int)
 
 func getReceipts(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, receipts)
@@ -75,13 +70,9 @@ func processPointsForReceipt(c *gin.Context) {
 	totalPoints += isDateOdd(receiptToProcess.PurchaseDate)
 	totalPoints += isTimeBetweenFourAndTwo(receiptToProcess.PurchaseTime)
 
-	var pointsForReceipt points
-	pointsForReceipt.Id = receiptToProcess.ID
-	pointsForReceipt.Points = totalPoints
+	pointsPerReceiptMap[receiptToProcess.ID] = totalPoints
 
-	receiptPoints = append(receiptPoints, pointsForReceipt)
-
-	c.IndentedJSON(http.StatusOK, gin.H{"id": pointsForReceipt.Id})
+	c.IndentedJSON(http.StatusOK, gin.H{"id": receiptToProcess.ID})
 }
 
 // One point for every alphanumeric character in the retailer name.
@@ -166,14 +157,14 @@ func isTimeBetweenFourAndTwo(purchaseTime string) int {
 	return 0
 }
 
-func getPointsByReceiptId(id string) (*points, error) {
+func getPointsByReceiptId(id string) (int, error) {
 
-	for i, r := range receiptPoints {
-		if r.Id == id {
-			return &receiptPoints[i], nil
-		}
+	points, ok := pointsPerReceiptMap[id]
+	if ok {
+		return points, nil
 	}
-	return nil, errors.New("no receipt found for that id")
+
+	return -1, errors.New("no receipt found for that id")
 }
 
 func getPointsById(c *gin.Context) {
@@ -186,7 +177,7 @@ func getPointsById(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"points": pointsForReceipt.Points})
+	c.IndentedJSON(http.StatusOK, gin.H{"points": pointsForReceipt})
 }
 
 func main() {
