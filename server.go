@@ -159,7 +159,17 @@ func fetchPointsByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	points := receipts[id]
+	mu.RLock() // acquire read lock
+	points, ok := receipts[id]
+	mu.RUnlock() // release read lock
+
+	if !ok {
+		w.WriteHeader(http.StatusNotFound) // set status code to 404
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "No points found for matching ID",
+		})
+		return
+	}
 
 	err := json.NewEncoder(w).Encode(Points{Points: points})
 	if err != nil {
