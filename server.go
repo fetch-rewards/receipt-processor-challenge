@@ -23,6 +23,8 @@ type Item struct {
 }
 
 func main() {
+	// receipts := make(map[string]int)
+
 	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, World!\nMy name is Imad")
 	})
@@ -35,6 +37,15 @@ func main() {
 }
 
 func generateID(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Error reading request body", http.StatusInternalServerError)
+		return
+	}
+
+	// Write the same body back to the client.
+	w.Write(body)
+
 	jsonFile, error := os.Open("examples/morning-receipt.json")
 	fmt.Println(error)
 	p, error := ioutil.ReadAll(jsonFile)
@@ -46,8 +57,8 @@ func generateID(w http.ResponseWriter, r *http.Request) {
 	}
 	defer jsonFile.Close()
 	b := make([]byte, 16)
-	_, err := rand.Read(b)
-	if err != nil {
+	_, error2 := rand.Read(b)
+	if error2 != nil {
 		panic(err)
 	}
 	uuid := fmt.Sprintf("%x-%x-%x-%x-%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
