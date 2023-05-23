@@ -13,16 +13,16 @@ import (
 )
 
 type Receipt struct {
-	Retailer     string  `json:"retailer"`
-	PurchaseDate string  `json:"purchaseDate"`
-	PurchaseTime string  `json:"purchaseTime"`
-	Items        []Item  `json:"items"`
-	Total        float64 `json:"total"`
+	Retailer     string `json:"retailer"`
+	PurchaseDate string `json:"purchaseDate"`
+	PurchaseTime string `json:"purchaseTime"`
+	Items        []Item `json:"items"`
+	Total        string `json:"total"`
 }
 
 type Item struct {
-	ShortDescription string  `json:"shortDescription"`
-	Price            float64 `json:"price"`
+	ShortDescription string `json:"shortDescription"`
+	Price            string `json:"price"`
 }
 
 type Points struct {
@@ -83,13 +83,13 @@ func generateID(w http.ResponseWriter, r *http.Request) {
 }
 
 func CalculatePoints(body io.Reader) (int, error) {
-	// var re Receipt
-	// err := json.NewDecoder(body).Decode(&re)
-	// if err != nil {
-	// 	return 0, fmt.Errorf("error decoding JSON: %w", err)
-	// }
+	var re Receipt
+	err := json.NewDecoder(body).Decode(&re)
+	if err != nil {
+		return 0, fmt.Errorf("error decoding JSON: %w", err)
+	}
 
-	points := 10 * 10
+	points := len(re.Items) * 10
 
 	return points, nil
 }
