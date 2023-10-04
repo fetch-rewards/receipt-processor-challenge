@@ -72,8 +72,8 @@ components:
                 retailer:
                     description: The name of the retailer or store the receipt is from.
                     type: string
-                    pattern: "^\\S+$"
-                    example: "Target"
+                    pattern: "^[\\w\\s\\-]+$"
+                    example: "M&M Corner Market"
                 purchaseDate:
                     description: The date of the purchase printed on the receipt.
                     type: string
