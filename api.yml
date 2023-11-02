@@ -107,7 +107,7 @@ components:
                     pattern: "^[\\w\\s\\-]+$"
                     example: "Mountain Dew 12PK"
                 price:
-                    description: The total price payed for this item.
+                    description: The total price paid for this item.
                     type: string
                     pattern: "^\\d+\\.\\d{2}$"
                     example: "6.49"
