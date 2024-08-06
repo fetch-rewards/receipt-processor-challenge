@@ -32,22 +32,17 @@ public class ReceiptController {
         if (receiptPoints.containsKey(id)) {
             Map<String, String> data = new HashMap<>();
             data.put("points", receiptPoints.get(id).toString());
-            return new ResponseEntity<>(data, HttpStatus.OK);
+            return ResponseEntity.ok(data);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No receipt found for id: " + id);
         }
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Receipt ID not found."
-        );
     }
 
     @PostMapping("/process")
     public ResponseEntity<Object> postReceipt(@RequestBody Receipt receipt) {
-        // Here you can process the POST request data
-        //return "Received POST data: " + data;
-        System.out.println("received postttt");
         Map<String, String> data = new HashMap<>();
         data.put("id", processReceipt(receipt));
-        return new ResponseEntity<Object>(data, HttpStatus.OK);
-
+        return new ResponseEntity<>(data, HttpStatus.CREATED);
     }
 
     private String processReceipt(Receipt receipt) {
