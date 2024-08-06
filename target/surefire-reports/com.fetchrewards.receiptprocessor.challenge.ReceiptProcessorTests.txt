@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.fetchrewards.receiptprocessor.challenge.ReceiptProcessorTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.137 s -- in com.fetchrewards.receiptprocessor.challenge.ReceiptProcessorTests
