@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"receipt-processor-challenge/controller"
+	"receipt-processor-challenge/logic"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,8 @@ import (
 func main() {
 	router := gin.Default()
 
-	receiptsController := controller.ReceiptController{}
+	receiptsService := logic.NewReceiptsService()
+	receiptsController := controller.NewReceiptsController(receiptsService)
 	receiptsController.AddRoutes(router)
 
 	log.Fatal(
