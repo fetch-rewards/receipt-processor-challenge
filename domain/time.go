@@ -5,6 +5,9 @@ import (
 	"time"
 )
 
+// Date represents a time object with only a date -- no timestamp.
+//
+// Used to unmarshal the Receipt.PurchaseDate field
 type Date struct {
 	Format string
 	time.Time
@@ -27,6 +30,9 @@ func (d Date) MarshalJSON() ([]byte, error) {
 	return json.Marshal(d.Time.Format(d.Format))
 }
 
+// Military represents a time object with only a timestamp in 24-hour time format.
+//
+// Used to unmarshal the Receipt.PurchaseTime field
 type MilitaryTime struct {
 	Format string
 	time.Time
@@ -47,4 +53,9 @@ func (m *MilitaryTime) UnmarshalJSON(b []byte) error {
 // MarshalJSON MilitaryTime method
 func (m MilitaryTime) MarshalJSON() ([]byte, error) {
 	return json.Marshal(m.Time.Format(m.Format))
+}
+
+// IsBetween determines if `m` comes after `starTime` and before `endTime`
+func (m MilitaryTime) IsBetween(startTime, endTime time.Time) bool {
+	return m.Time.After(startTime) && m.Time.Before(endTime)
 }
