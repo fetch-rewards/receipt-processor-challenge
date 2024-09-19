@@ -77,7 +77,7 @@ func (h *ReceiptController) GetReceiptPoints(c *gin.Context) {
 		})
 	}
 
-	var points uint
+	var points int64
 	_, err := h.receiptsService.GetByID(id)
 	if err == nil {
 		points, err = h.receiptsService.GetPointsByID(id)

@@ -28,7 +28,7 @@ type Item struct {
 // ReceiptScore represents a processed receipt and its number of points.
 type ReceiptScore struct {
 	Receipt Receipt `json:"receipt"`
-	Points  uint    `json:"points"`
+	Points  int64   `json:"points"`
 }
 
 // IDResponse is the response object for a Receipt ID
@@ -38,5 +38,5 @@ type IDResponse struct {
 
 // PointsResponse is the response object for a Receipt's points
 type PointsResponse struct {
-	Points uint `json:"points"`
+	Points int64 `json:"points"`
 }

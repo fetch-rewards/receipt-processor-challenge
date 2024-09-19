@@ -8,7 +8,7 @@ import (
 
 var (
 	receiptsTable = make(map[string]domain.Receipt)
-	pointsTable   = make(map[string]uint)
+	pointsTable   = make(map[string]int64)
 )
 
 type ReceiptRepo struct{}
@@ -19,7 +19,7 @@ func (s *ReceiptRepo) Store(receipt domain.Receipt) string {
 	return id
 }
 
-func (s *ReceiptRepo) StorePoints(id string, points uint) error {
+func (s *ReceiptRepo) StorePoints(id string, points int64) error {
 	if _, exists := receiptsTable[id]; !exists {
 		// no receipt exists in the system for this id
 		return domain.ErrReceiptNotFound
@@ -38,7 +38,7 @@ func (s *ReceiptRepo) GetByID(id string) (domain.Receipt, error) {
 	return result, nil
 }
 
-func (s *ReceiptRepo) GetPointsByID(id string) (uint, error) {
+func (s *ReceiptRepo) GetPointsByID(id string) (int64, error) {
 	result, ok := pointsTable[id]
 	if !ok {
 		return 0, domain.ErrReceiptNotFound

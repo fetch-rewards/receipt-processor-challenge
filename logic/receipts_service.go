@@ -11,11 +11,11 @@ import (
 )
 
 type IReceiptsService interface {
-	ProcessReceipt(receipt *domain.Receipt) (points uint)
+	ProcessReceipt(receipt *domain.Receipt) (points int64)
 	StoreReceipt(receipt *domain.Receipt) (id string)
 	StoreScoredReceipt(receiptScore *domain.ReceiptScore) (id string, err error)
 	GetByID(id string) (domain.Receipt, error)
-	GetPointsByID(id string) (uint, error)
+	GetPointsByID(id string) (int64, error)
 }
 
 type ReceiptsService struct {
@@ -26,7 +26,7 @@ func NewReceiptsService() *ReceiptsService {
 	return &ReceiptsService{}
 }
 
-func (s *ReceiptsService) ProcessReceipt(receipt *domain.Receipt) (points uint) {
+func (s *ReceiptsService) ProcessReceipt(receipt *domain.Receipt) (points int64) {
 	// One point for every alphanumeric character in the retailer name.
 	points += s.countAlphanumericCharacters(receipt.RetailerName)
 
@@ -42,14 +42,14 @@ func (s *ReceiptsService) ProcessReceipt(receipt *domain.Receipt) (points uint) 
 
 	// 5 points for every two items on the receipt (len(items) / 2 * 5)
 	itemCouples := (len(receipt.Items) / 2)
-	points += uint(itemCouples * 5)
+	points += int64(itemCouples * 5)
 
 	// If the trimmed length of the item description is a multiple of 3, multiply the price by 0.2 and round up to the nearest integer.
 	// The result is the number of points earned.
 	var scalar = decimal.NewFromFloat32(0.2)
 	for _, item := range receipt.Items {
 		if len(strings.TrimSpace(item.ShortDescription))%3 == 0 {
-			points += uint(item.Price.Mul(scalar).Ceil().IntPart())
+			points += item.Price.Mul(scalar).Ceil().IntPart()
 		}
 	}
 
@@ -87,11 +87,11 @@ func (s *ReceiptsService) GetByID(id string) (domain.Receipt, error) {
 	return s.receiptService.GetByID(id)
 }
 
-func (s *ReceiptsService) GetPointsByID(id string) (uint, error) {
+func (s *ReceiptsService) GetPointsByID(id string) (int64, error) {
 	return s.receiptService.GetPointsByID(id)
 }
 
-func (s *ReceiptsService) countAlphanumericCharacters(str string) (count uint) {
+func (s *ReceiptsService) countAlphanumericCharacters(str string) (count int64) {
 	for _, char := range str {
 		if unicode.IsLetter(char) {
 			count++
