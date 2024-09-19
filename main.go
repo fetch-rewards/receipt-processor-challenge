@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"receipt-processor-challenge/controller"
+	"receipt-processor-challenge/adapter/controller"
 	"receipt-processor-challenge/logic"
 
 	"github.com/gin-gonic/gin"

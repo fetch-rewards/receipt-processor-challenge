@@ -1,8 +1,8 @@
 package logic
 
 import (
-	"receipt-processor-challenge/domain"
-	"receipt-processor-challenge/mysqlrepo"
+	"receipt-processor-challenge/adapter/repository"
+	"receipt-processor-challenge/model"
 	"strings"
 	"time"
 	"unicode"
@@ -11,22 +11,22 @@ import (
 )
 
 type IReceiptsService interface {
-	ProcessReceipt(receipt *domain.Receipt) (points int64)
-	StoreReceipt(receipt *domain.Receipt) (id string)
-	StoreScoredReceipt(receiptScore *domain.ReceiptScore) (id string, err error)
-	GetByID(id string) (domain.Receipt, error)
+	ProcessReceipt(receipt *model.Receipt) (points int64)
+	StoreReceipt(receipt *model.Receipt) (id string)
+	StoreScoredReceipt(receiptScore *model.ReceiptScore) (id string, err error)
+	GetByID(id string) (model.Receipt, error)
 	GetPointsByID(id string) (int64, error)
 }
 
 type ReceiptsService struct {
-	receiptService mysqlrepo.ReceiptRepo
+	receiptService repository.ReceiptRepo
 }
 
 func NewReceiptsService() *ReceiptsService {
 	return &ReceiptsService{}
 }
 
-func (s *ReceiptsService) ProcessReceipt(receipt *domain.Receipt) (points int64) {
+func (s *ReceiptsService) ProcessReceipt(receipt *model.Receipt) (points int64) {
 	// One point for every alphanumeric character in the retailer name.
 	points += s.countAlphanumericCharacters(receipt.RetailerName)
 
@@ -68,11 +68,11 @@ func (s *ReceiptsService) ProcessReceipt(receipt *domain.Receipt) (points int64)
 	return
 }
 
-func (s *ReceiptsService) StoreReceipt(receipt *domain.Receipt) (id string) {
+func (s *ReceiptsService) StoreReceipt(receipt *model.Receipt) (id string) {
 	return s.receiptService.Store(*receipt)
 }
 
-func (s *ReceiptsService) StoreScoredReceipt(receiptScore *domain.ReceiptScore) (id string, err error) {
+func (s *ReceiptsService) StoreScoredReceipt(receiptScore *model.ReceiptScore) (id string, err error) {
 	if receiptScore == nil {
 		return "", nil
 	}
@@ -83,7 +83,7 @@ func (s *ReceiptsService) StoreScoredReceipt(receiptScore *domain.ReceiptScore) 
 	return
 }
 
-func (s *ReceiptsService) GetByID(id string) (domain.Receipt, error) {
+func (s *ReceiptsService) GetByID(id string) (model.Receipt, error) {
 	return s.receiptService.GetByID(id)
 }
 

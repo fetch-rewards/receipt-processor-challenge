@@ -3,8 +3,8 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"receipt-processor-challenge/domain"
 	"receipt-processor-challenge/logic"
+	"receipt-processor-challenge/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +28,7 @@ func (h *ReceiptController) AddRoutes(router *gin.Engine) {
 // ProcessReceipts stores a Receipt and the points calculated from the receipt.
 func (h *ReceiptController) ProcessReceipt(c *gin.Context) {
 	// Parse receipt
-	var receipt domain.Receipt
+	var receipt model.Receipt
 	if err := c.ShouldBindJSON(&receipt); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "The receipt is invalid",
@@ -38,7 +38,7 @@ func (h *ReceiptController) ProcessReceipt(c *gin.Context) {
 
 	// Process receipt
 	points := h.receiptsService.ProcessReceipt(&receipt)
-	scoredReceipt := domain.ReceiptScore{
+	scoredReceipt := model.ReceiptScore{
 		Receipt: receipt,
 		Points:  points,
 	}
@@ -52,7 +52,7 @@ func (h *ReceiptController) ProcessReceipt(c *gin.Context) {
 		return
 	}
 
-	response := domain.IDResponse{ID: id}
+	response := model.IDResponse{ID: id}
 
 	c.JSON(http.StatusOK, response)
 }
@@ -72,7 +72,7 @@ func (h *ReceiptController) GetReceiptPoints(c *gin.Context) {
 		points, err = h.receiptsService.GetPointsByID(id)
 	}
 	if err != nil {
-		if err == domain.ErrReceiptNotFound {
+		if err == model.ErrReceiptNotFound {
 			c.JSON(http.StatusNotFound, gin.H{
 				"error": "No receipt found for that id",
 			})
@@ -84,7 +84,7 @@ func (h *ReceiptController) GetReceiptPoints(c *gin.Context) {
 		return
 	}
 
-	response := domain.PointsResponse{
+	response := model.PointsResponse{
 		Points: points,
 	}
 

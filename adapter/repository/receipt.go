@@ -1,19 +1,19 @@
-package mysqlrepo
+package repository
 
 import (
-	"receipt-processor-challenge/domain"
+	"receipt-processor-challenge/model"
 
 	"github.com/google/uuid"
 )
 
 var (
-	receiptsTable = make(map[string]domain.Receipt)
+	receiptsTable = make(map[string]model.Receipt)
 	pointsTable   = make(map[string]int64)
 )
 
 type ReceiptRepo struct{}
 
-func (s *ReceiptRepo) Store(receipt domain.Receipt) string {
+func (s *ReceiptRepo) Store(receipt model.Receipt) string {
 	id := s.GenerateUUID()
 	receiptsTable[id] = receipt
 	return id
@@ -22,17 +22,17 @@ func (s *ReceiptRepo) Store(receipt domain.Receipt) string {
 func (s *ReceiptRepo) StorePoints(id string, points int64) error {
 	if _, exists := receiptsTable[id]; !exists {
 		// no receipt exists in the system for this id
-		return domain.ErrReceiptNotFound
+		return model.ErrReceiptNotFound
 	}
 	pointsTable[id] = points
 
 	return nil
 }
 
-func (s *ReceiptRepo) GetByID(id string) (domain.Receipt, error) {
+func (s *ReceiptRepo) GetByID(id string) (model.Receipt, error) {
 	result, ok := receiptsTable[id]
 	if !ok {
-		return domain.Receipt{}, domain.ErrReceiptNotFound
+		return model.Receipt{}, model.ErrReceiptNotFound
 	}
 
 	return result, nil
@@ -41,7 +41,7 @@ func (s *ReceiptRepo) GetByID(id string) (domain.Receipt, error) {
 func (s *ReceiptRepo) GetPointsByID(id string) (int64, error) {
 	result, ok := pointsTable[id]
 	if !ok {
-		return 0, domain.ErrReceiptNotFound
+		return 0, model.ErrReceiptNotFound
 	}
 
 	return result, nil
