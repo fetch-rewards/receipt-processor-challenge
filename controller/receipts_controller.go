@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"receipt-processor-challenge/domain"
 	"receipt-processor-challenge/logic"
@@ -30,15 +28,8 @@ func (h *ReceiptController) AddRoutes(router *gin.Engine) {
 // ProcessReceipts stores a Receipt and the points calculated from the receipt.
 func (h *ReceiptController) ProcessReceipt(c *gin.Context) {
 	// Parse receipt
-	bodyBytes, err := io.ReadAll(c.Request.Body)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": fmt.Sprintf("Failed to read request body. Error: %v", err.Error()),
-		})
-		return
-	}
 	var receipt domain.Receipt
-	if err = json.Unmarshal(bodyBytes, &receipt); err != nil {
+	if err := c.ShouldBindJSON(&receipt); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "The receipt is invalid",
 		})
@@ -55,10 +46,8 @@ func (h *ReceiptController) ProcessReceipt(c *gin.Context) {
 	// Store scored receipt
 	id, err := h.receiptsService.StoreScoredReceipt(&scoredReceipt)
 	if err != nil {
-		// failureMsg := "There was an error processing the receipt"
-		failureMsg := "The receipt is invalid"
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": fmt.Sprintf("%v. Error: %v", failureMsg, err.Error()),
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "The receipt is invalid",
 		})
 		return
 	}
