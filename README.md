@@ -10,7 +10,7 @@ Data does not need to persist when your application stops. It is sufficient to s
 
 ## Language Selection
 
-You can assume our engineers have Go and Docker installed to run your application. Go is our preferred language, but it is not a requirement for this exercise. If you are not using Go, include a Dockerized setup to run the code.
+You can assume our engineers have Go and Docker installed to run your application. Go is our preferred language, but it is not a requirement for this exercise. If you are not using Go, include a Dockerized setup to run the code. You should also provide detailed instructions if your Docker file requires any additional configuration to run the application.
 
 ## Submitting Your Solution
 
