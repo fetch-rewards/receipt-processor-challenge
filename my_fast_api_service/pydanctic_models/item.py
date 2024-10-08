@@ -1,6 +1,4 @@
-from pydantic import BaseModel, UUID4, StringConstraints, Field
-from typing import Annotated
-
+from pydantic import BaseModel, Field
 
 class ItemCreate(BaseModel):
     short_description: str = Field(
