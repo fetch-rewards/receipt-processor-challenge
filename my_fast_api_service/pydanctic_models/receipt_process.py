@@ -1,5 +1,5 @@
-from pydantic import BaseModel, field_validator, Field, StringConstraints, UUID4
-from typing import List, Annotated
+from pydantic import BaseModel, field_validator, Field, UUID4
+from typing import List
 from datetime import date, time
 
 from pydanctic_models.item import ItemCreate
