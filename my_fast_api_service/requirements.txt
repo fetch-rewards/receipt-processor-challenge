@@ -1,2 +1,4 @@
 fastapi[standard]==0.113.0
 pydantic==2.8.0
+pytest==8.3.3
+httpx==0.27.2
