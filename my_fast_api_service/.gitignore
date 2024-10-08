@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environment
+.venv/
+.env/
+
+# Docker
+*.dockerignore
+Dockerfile
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
