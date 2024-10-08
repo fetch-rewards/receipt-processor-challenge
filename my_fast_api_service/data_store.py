@@ -1,4 +1,1 @@
-
-
 receipts_storage = []
-
