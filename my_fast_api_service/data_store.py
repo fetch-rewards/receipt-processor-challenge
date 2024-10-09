@@ -1,0 +1,1 @@
+receipts_storage = []
