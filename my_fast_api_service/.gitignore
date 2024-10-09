@@ -10,10 +10,6 @@ __pycache__/
 .venv/
 .env/
 
-# Docker
-*.dockerignore
-Dockerfile
-
 # IDE and Editor files
 .idea/
 .vscode/
