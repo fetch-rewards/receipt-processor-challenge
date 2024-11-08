@@ -1,0 +1,21 @@
+{
+  "name": "receipt-processor-challenge",
+  "version": "1.0.0",
+  "description": "Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided \r in the [api.yml](./api.yml) file, but the information in this README is sufficient for completion of this challenge. We will use the \r described API to test your solution.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0"
+  }
+}
