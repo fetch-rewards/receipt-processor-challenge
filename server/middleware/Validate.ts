@@ -1,20 +1,39 @@
 import { NextFunction, Request, Response } from 'express';
-import Receipt from '../types/receiptType';
-
+import Receipt from '../types/ReceiptType.js';
+import ReceiptDataController from '../controllers/ReceiptDataController.js';
 /*
 Manual validation of Request bodies.
 Validating just receipt request body data for now, can expand as more routes are defined.
 */
 
 const ValidateRequest = {
+
+  isReceipt: (object: any): object is Receipt =>
+  {
+    return (
+      typeof object === 'object' &&
+      Array.isArray(object.items) &&
+      object.items.every(
+        (item: any) =>
+          typeof item === 'object' &&
+          typeof item.shortDescription === 'string' &&
+          typeof item.price === 'string'
+      ) &&
+      typeof object.purchaseDate === 'string' &&
+      typeof object.purchaseTime === 'string' &&
+      typeof object.retailer === 'string' &&
+      typeof object.total === 'string'
+    );
+  },
+
   validateReceiptSubmission: (
     req: Request<object, object, Receipt>,
     res: Response,
     next: NextFunction
-  ): void => { // Ensure return type is `void`
+  ): void => {
     const receipt = req.body;
-
-    if (receipt) {
+  
+    if (ValidateRequest.isReceipt(receipt)) {
       const { items, purchaseDate, purchaseTime, retailer, total } = receipt;
 
       const date = Date.parse(purchaseDate);
@@ -27,7 +46,7 @@ const ValidateRequest = {
           success: false,
           message: 'Invalid retailer. It should be a non-empty string.',
         });
-        return; // End the request-response cycle
+        return;
       }
 
       // Validate purchase date
@@ -36,16 +55,16 @@ const ValidateRequest = {
           success: false,
           message: 'Invalid purchase date. It should be a valid date string.',
         });
-        return; // End the request-response cycle
+        return;
       }
 
       // Validate purchase time
       if (!timeRegex.test(purchaseTime)) {
         res.status(400).json({
           success: false,
-          message: 'Invalid purchase time. It should be in the format HH:MM or HH:MM:SS.',
+          message: 'Invalid purchase time. It should be in the format HH:MM',
         });
-        return; // End the request-response cycle
+        return;
       }
 
       // Validate total amount
@@ -54,16 +73,28 @@ const ValidateRequest = {
           success: false,
           message: 'Invalid total amount. It should be a valid number with up to two decimal places.',
         });
-        return; // End the request-response cycle
+        return;
       }
 
-      // Validate items
+      // Validate items list
       if (typeof items !== 'object' || items.length < 1) {
         res.status(400).json({
           success: false,
           message: 'Items should be an array with at least one item.',
         });
-        return; // End the request-response cycle
+        return;
+      }
+      //validate item price
+      else{
+        for (const el of items) {
+          if (!numberRegex.test(el.price)) {
+            res.status(400).json({
+              success: false,
+              message: `Invalid item price: ${el.shortDescription}: $${el.price}. It should be a valid number with up to two decimal places.`,
+            });
+            return; // Exit the function after sending the response
+          }
+        }
       }
 
       next();
@@ -71,32 +102,38 @@ const ValidateRequest = {
     } else {
       res.status(400).json({
         success: false,
-        message: 'Receipt data is missing.',
+        message: 'Invalid Receipt. Receipt data is missing.',
       });
-      return; // End the request-response cycle
+      return;
     }
   },
 
-  validateReceiptId: (req: Request, res: Response, next: NextFunction): void => { // Ensure return type is `void`
-    const { body } = req;
-
-    if (typeof body === 'string') {
-      if (body.length !== 36) {
+  validateReceiptId: (req: Request, res: Response, next: NextFunction): void => {
+    const id = req.params.id;
+    if (typeof id === 'string') {
+      if (id.length !== 36) {
         res.status(400).json({
           success: false,
           message: 'Invalid ID. ID must be 36 characters long.',
         });
-        return; // End the request-response cycle
+        return;
       }
-
-      next();
-      
+      else{
+        if(!ReceiptDataController.storage.has(id)){
+          res.status(404).json({
+            success: false,
+            message: 'ID Not Found!',
+          });
+          return;
+        }
+        next();
+      }      
     } else {
       res.status(400).json({
         success: false,
         message: 'Invalid ID. ID should be a string.',
       });
-      return; // End the request-response cycle
+      return;
     }
   },
 };

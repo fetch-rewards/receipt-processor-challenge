@@ -1,5 +1,5 @@
 import express, {Request, Response, NextFunction} from 'express';
-import router from './routes/ReceiptRoutes';
+import router from './routes/ReceiptRoutes.js';
 const app = express();
 const PORT = 3000;
 const IP = process.env.localIp ? process.env.localIp : 'localhost';
@@ -10,20 +10,24 @@ app.use(express.json());
 // Route Receipts
 app.use('/receipts', router)
 
+app.get('/ping', (req: Request, res:Response) => {
+  res.send('pong')
+})
+
 // Global Error Handler
-app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
-  // Log the error (useful for debugging)
-  console.error('Error:', err.message);
+// app.use((err:Error, req:Request, res:Response, next:NextFunction) => {
+//   // Log the error (useful for debugging)
+//   console.error('Error:', err.message);
 
-  // Set the HTTP status code from the error or default to 500
-  const statusCode = err.statusCode || 500;
+//   // Set the HTTP status code from the error or default to 500
+//   const statusCode = err.statusCode || 500;
 
-  // Send a JSON response with error details
-  res.status(statusCode).json({
-    success: false,
-    message: err.message || 'Internal Server Error',
-  });
-});
+//   // Send a JSON response with error details
+//   res.status(statusCode).json({
+//     success: false,
+//     message: err.message || 'Internal Server Error',
+//   });
+// });
 
 
 app.listen(PORT, IP, () => {
