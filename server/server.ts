@@ -1,18 +1,14 @@
 import express, {Request, Response, NextFunction} from 'express';
 import router from './routes/ReceiptRoutes.js';
 const app = express();
-const PORT = 3000;
-const IP = process.env.localIp ? process.env.localIp : 'localhost';
+const PORT = process.env.PORT ? process.env.PORT : 3000;
+const IP = process.env.localIp ? process.env.localIp : '';
 
 // Parse JSON Bodies
 app.use(express.json()); 
 
 // Route Receipts
 app.use('/receipts', router)
-
-app.get('/ping', (req: Request, res:Response) => {
-  res.send('pong')
-})
 
 // Global Error Handler
 // app.use((err:Error, req:Request, res:Response, next:NextFunction) => {

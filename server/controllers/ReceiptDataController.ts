@@ -13,8 +13,6 @@ interface ReceiptData {
   points: number
 }
 
-
-
 const ReceiptDataController = {
   storage: new Map<string, ReceiptData>(),
   newReceipt: (req:Request, res: Response, next: NextFunction) => {
@@ -86,7 +84,7 @@ const ReceiptDataController = {
     const id = req.params.id;
     const points = ReceiptDataController.storage.get(id)!.points;
     res.status(200).json({points:points})
-    
+
   }
 
 }
