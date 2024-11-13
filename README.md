@@ -102,7 +102,7 @@ These rules collectively define how many points should be awarded to a receipt.
 Total Points: 28
 Breakdown:
      6 points - retailer name has 6 characters
-    10 points - 4 items (2 pairs @ 5 points each)
+    10 points - 5 items (2 pairs @ 5 points each)
      3 Points - "Emils Cheese Pizza" is 18 characters (a multiple of 3)
                 item price of 12.25 * 0.2 = 2.45, rounded up is 3 points
      3 Points - "Klarbrunn 12-PK 12 FL OZ" is 24 characters (a multiple of 3)
