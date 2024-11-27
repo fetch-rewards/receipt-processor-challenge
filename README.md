@@ -1,8 +1,7 @@
 # Receipt Processor
 
 Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided 
-in the [api.yml](./api.yml) file, but the information in this README is sufficient for completion of this challenge. We will use the 
-described API to test your solution.
+in the [api.yml](./api.yml) file. We will use the described API to test your solution.
 
 Provide any instructions required to run your application.
 
@@ -158,6 +157,8 @@ Breakdown:
 An engineer will review the code you submit. At a minimum they must be able to run the service and the service must provide the expected results. You
 should provide any necessary documentation within the repository. While your solution does not need to be fully production ready, you are being evaluated so
 put your best foot forward.
+
+Part of that evaluation includes running an automated testing suite against your project to confirm it matches the specified API.
 
 ### I have questions about the problem statement
 For any requirements not specified via an example, use your best judgment to determine the expected result.
