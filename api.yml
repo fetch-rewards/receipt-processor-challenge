@@ -1,10 +1,8 @@
 openapi: 3.0.3
-
 info:
     title: Receipt Processor
     description: A simple receipt processor
     version: 1.0.0
-
 paths:
     /receipts/process:
         post:
@@ -58,7 +56,6 @@ paths:
                                         example: 100
                 404:
                     $ref: "#/components/responses/NotFound"
-
 components:
     schemas:
         Receipt:
