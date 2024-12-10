@@ -160,7 +160,7 @@ put your best foot forward.
 
 Part of that evaluation includes running an automated testing suite against your project to confirm it matches the specified API.
 
-### I have questions about the problem statement
+### I have questions about the problem statement. What should I do?
 For any requirements not specified via an example, use your best judgment to determine the expected result.
 
 ### Can I provide a private repository?
